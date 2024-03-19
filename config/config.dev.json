@@ -1,0 +1,10 @@
+{
+    "serverPort": 8082,
+    "dbUrl": "localhost",
+    "dbPort": "5432",
+    "dbUsername": "postgres",
+    "dbPassword": "j5514kbELZ",
+    "dbName": "products_solution",
+    "userServiceUrl": "http://localhost:8081",
+    "userServiceGETApi": "/v1/users" 
+}
