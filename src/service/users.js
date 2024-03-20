@@ -88,6 +88,44 @@ async authenticate(email, password) {
 
 }
 
+async findByIdAndEmail(id, email) {
+
+    try {
+        const user = await knex.select('*')
+        .from('users')
+        .where('user_id', id)
+        .andWhere('email', email)
+        .first();
+    
+        return user;
+    } catch( error) {
+        console.error('Error while fetching user.');
+        throw error;
+    }
+
+}
+
+async validate(token) {
+
+    jwt.verify(token, jwtSec, (err, decoded) => {
+
+        if( err ) {
+            throw util.populateError(401, 'Token not verified.', 
+                ['Invalid Jwt token.', 'Please try generating again and validate.']);
+        }
+        
+        console.log('Decoded JWT: ' + JSON.stringify(decoded));
+        
+        const userId = decoded.id;
+        const email = decoded.email;
+
+        const user = this.findByIdAndEmail(userId, email);
+
+        return user;
+    });
+
+}
+
 
 async getCurrentTimestamp() {
         const now = new Date();

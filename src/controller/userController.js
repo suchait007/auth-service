@@ -54,6 +54,26 @@ class UserController {
 
     }
 
+    async handleValidate(req, res, next) {
+
+        try {
+
+            const { token } = req.body
+            const user = await users.validate(token);
+
+            if(user) {
+                throw util.populateError(400, 'User already exists.', 
+                ['User already exists in system.', 'Please try again with another email.']); 
+            }
+
+            return res.json({token_status: "valid"});
+
+        } catch (err) {
+            next(err);
+        }
+
+    }
+
 }
 
 module.exports = new UserController();
